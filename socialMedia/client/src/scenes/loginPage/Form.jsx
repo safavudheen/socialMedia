@@ -12,8 +12,11 @@ import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setLogin } from "../../state";
-import { Dropzone } from "react-dropzone";
+// import { Dropzone } from "react-dropzone";
 import FlexBetween from "../../components/FlexBetween";
+import { useState } from "react";
+import Dropzone from 'react-dropzone';
+import { Login } from "@mui/icons-material";
 
 const registerSchema = yup.object().shape({
   firstName: yup.string().required("required"),
@@ -24,7 +27,7 @@ const registerSchema = yup.object().shape({
   occupation: yup.string().required("required"),
   picture: yup.string().required("required"),
 });
-const loginSchima = yup.object().shape({
+const loginSchema = yup.object().shape({
   email: yup.string().email("invalid email").required("required"),
   password: yup.string().required("required"),
 });
@@ -49,8 +52,18 @@ const Form = () => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
   const isLogin = pageType === "login";
   const isRegister = pageType === "register";
+  const register =async (values,onSubmitProps)=>{
+    const formData = new FormData();
 
+
+
+
+    }
   const handleFormSubmit = async (values, onSubmitProps) => {
+    if (isLogin) await Login(values,onSubmitProps);
+        if(isRegister) await register(values, onSubmitProps);
+    }
+    return (
     <Formik
       onSubmit={handleFormSubmit}
       initialValues={isLogin ? initialValueLogin : initialValuesRegister}
@@ -70,12 +83,13 @@ const Form = () => {
           <Box
             display="grid"
             gap="30px"
+            p="30px"
             gridTemplateColumns="repeat(4, minmax(0,1fr))"
             sx={{
               "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
             }}
           >
-            isRegister && (
+            (isRegister && (
             <>
               <TextField
                 label="First Name"
@@ -83,8 +97,8 @@ const Form = () => {
                 onChange={handleChange}
                 value={values.firstName}
                 name="FirstName"
-                error={Boolean(touched.firstName) && boolean(errors.firstName)}
-                helperText={touched.lastName && error.lastName}
+                error={Boolean(touched.firstName) && Boolean(errors.firstName)}
+                helperText={touched.lastName && errors.lastName}
                 sx={{ gridColumn: "span 2" }}
               />
               <TextField
@@ -93,8 +107,8 @@ const Form = () => {
                 onChange={handleChange}
                 value={values.lastName}
                 name="lastName"
-                error={Boolean(touched.lastName) && boolean(errors.lastName)}
-                helperText={touched.lastName && error.lastName}
+                error={Boolean(touched.lastName) && Boolean(errors.lastName)}
+                helperText={touched.lastName && errors.lastName}
                 sx={{ gridColumn: "span 2" }}
               />
               <TextField
@@ -103,8 +117,8 @@ const Form = () => {
                 onChange={handleChange}
                 value={values.location}
                 name="Location"
-                error={Boolean(touched.location) && boolean(errors.location)}
-                helperText={touched.location && error.location}
+                error={Boolean(touched.location) && Boolean(errors.location)}
+                helperText={touched.location && errors.location}
                 sx={{ gridColumn: "span 4" }}
               />
               <TextField
@@ -114,9 +128,9 @@ const Form = () => {
                 value={values.occupation}
                 name="occupation"
                 error={
-                  Boolean(touched.occupation) && boolean(errors.occupation)
+                  Boolean(touched.occupation) && Boolean(errors.occupation)
                 }
-                helperText={touched.occupation && error.occupation}
+                helperText={touched.occupation && errors.occupation}
                 sx={{ gridColumn: "span 4" }}
               />
               <Box gridColumn="span 4">
@@ -137,7 +151,7 @@ const Form = () => {
                         <p>Add picture here</p>
                       ) : (
                         <FlexBetween>
-                          <Typography>{value.picture.name}</Typography>
+                          <Typography>{values.picture.name}</Typography>
                           <EditOutlinedIcon />
                         </FlexBetween>
                       )}
@@ -190,11 +204,11 @@ const Form = () => {
                   : "Already have an account ? Login here."}
               </Typography>
             </>
-            )
+            ))
           </Box>
         </form>
       )}
-    </Formik>;
-  };
+    </Formik>
+    )
 };
 export default Form;

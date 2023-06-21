@@ -18,7 +18,6 @@ const isNonMobileScreens = useMediaQuery("(min-width: 1000px)")
             fontWeight="bold"
             fontSize="32px"
             color="primary"
-         
             >
                 Sociopedia
             </Typography>
@@ -28,10 +27,11 @@ const isNonMobileScreens = useMediaQuery("(min-width: 1000px)")
             m="2rem auto"
             borderRadius="1.5 rem"
             backgroundColor={theme.palette.background.alt }>
-                <Typography fontWeight="500" variant ="h5" sx={{mb:"1.5rem"}}>
+            <Typography fontWeight="500" variant ="h5" sx={{mb:"1.5rem"}}>
                     welcome to Sociopedia, the social media for sociopaths
-                    </Typography>
-             </Box>
+            </Typography>
+            <Form/>
+            </Box>
         </Box>
     
          )
